@@ -91,7 +91,7 @@ public class ProductController {
 	@RequestMapping("updateProduct.do")
 	public String updateProduct(@ModelAttribute("product") Product product, Model model) throws Exception {
 
-		System.out.println(".updateProduct.do");
+		System.out.println("updateProduct.do");
 		// Business Logic
 		productService.updateProduct(product);
 
