@@ -79,9 +79,11 @@
 	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT  buyer_id, receiver_name, receiver_phone, tran_status_code, tran_no, prod_no
-										FROM transaction
-										WHERE buyer_id = #{buyerId}
+  						FROM ( SELECT t.tran_no, p.prod_no, t.order_data, t.tran_status_code 
+										FROM transaction t, product p, users u 
+										WHERE t.prod_no = p.prod_no 
+										AND t.buyer_id = u.user_id 
+										AND t.buyer_id = #{buyerId}
 										ORDER BY tran_no  ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1

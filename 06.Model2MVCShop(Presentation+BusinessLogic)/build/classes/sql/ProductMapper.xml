@@ -14,6 +14,7 @@
 		<result property="price" column="price" jdbcType="NUMERIC" />
 		<result property="fileName" column="image_file" jdbcType="VARCHAR" />
 		<result property="regDate" column="reg_date" jdbcType="DATE" />
+		<result property="proTranCode" column="tran_status_code" jdbcType="VARCHAR" />
 	</resultMap>
 
 <!-- SQL : INSERT -->
@@ -55,8 +56,8 @@ WHERE prod_no = #{prodNo}
 <select id="getProductList" parameterType="search" resultMap="productSelectMap">
 		SELECT *
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
-		FROM ( SELECT p.prod_no, p.prod_name , p.price, p.manufacture_day,
-		nvl(t.tran_status_code,1)
+		FROM ( SELECT p.prod_no, p.prod_name , p.price, p.reg_date,
+		nvl(t.tran_status_code,1) as tran_status_code
 		FROM product p, transaction t
 		WHERE t.prod_no(+)=p.prod_no
 		<if test="searchCondition != null">
@@ -90,13 +91,13 @@ WHERE prod_no = #{prodNo}
 		WHERE t.prod_no(+)=p.prod_no
 		<if test="searchCondition != null">
 			<if test="searchCondition == 0 and searchKeyword !='' ">
-				AND p.prod_no  like '%'||#{searchKeyword}||'%'
+				AND p.prod_no LIKE '%'||#{searchKeyword}||'%'
 			</if>
 			<if test="searchCondition == 1 and searchKeyword !='' ">
-				AND p.prod_name  like '%'||#{searchKeyword}||'%'
+				AND p.prod_name  LIKE '%'||#{searchKeyword}||'%'
 			</if>
 			<if test="searchCondition == 2 and searchKeyword !='' ">
-				AND p.price  like '%'||#{searchKeyword}||'%'
+				AND p.price LIKE '%'||#{searchKeyword}||'%'
 			</if>
 		</if>
 		) countTable

@@ -105,7 +105,7 @@ function fncGetList(currentPage) {
 						<td></td>
 						<td align="left">${product.price}</td>
 						<td></td>
-						<td align="left">${product.manuDate}</td>
+						<td align="left">${product.regDate}</td>
 						<td></td>
 						<c:choose>
 							<c:when test="${user.role=='admin'}">
