@@ -51,7 +51,7 @@ public class PurchaseController {
 		Product product = productService.getProduct(Integer.parseInt(prodNo));
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/purchase/addPurchaseView.jsp");
+		modelAndView.setViewName("/purchase/addPurchaseView.jsp");
 		modelAndView.addObject("product", product);
 		return modelAndView;
 	}
@@ -65,7 +65,7 @@ public class PurchaseController {
 		purchase.setBuyer((User)session.getAttribute("user"));
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/purchase/addPurchase.jsp");
+		modelAndView.setViewName("/purchase/addPurchase.jsp");
 		modelAndView.addObject("purchase", purchase);
 
 		return modelAndView;
@@ -80,7 +80,7 @@ public class PurchaseController {
 		purchase.setBuyer((User)session.getAttribute("user"));
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/purchase/getPurchase.jsp");
+		modelAndView.setViewName("/purchase/getPurchase.jsp");
 		modelAndView.addObject("purchase", purchase);
 
 		return modelAndView;
@@ -104,7 +104,7 @@ public class PurchaseController {
 		
 	
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/purchase/listPurchase.jsp");
+		modelAndView.setViewName("/purchase/listPurchase.jsp");
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
@@ -119,7 +119,7 @@ public class PurchaseController {
 		System.out.println("updatePurchaseView.do");
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/purchase/updatePurchaseView.jsp");
+		modelAndView.setViewName("/purchase/updatePurchaseView.jsp");
 		modelAndView.addObject("purchase", tranNo);
 
 		return modelAndView;
