@@ -65,7 +65,7 @@ function fncGetList(currentPage) {
 									src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 								<td background="/images/ct_btnbg02.gif" class="ct_btn01"
 									style="padding-top: 3px;"><a
-									href="javascript:fncGetList();">검색</a></td>
+									href="javascript:fncGetList('1');">검색</a></td>
 								<td width="14" height="23"><img
 									src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 							</tr>
@@ -109,26 +109,32 @@ function fncGetList(currentPage) {
 						<td></td>
 						<c:choose>
 							<c:when test="${user.role=='admin'}">
-								<c:if test="${product.proTranCode.trim()=='1'}">
+								<c:if test="${product.proTranCode=='1'}">
 									<td align="left">판매중</td>
 								</c:if>
-								<c:if test="${product.proTranCode.trim()=='2'}">
+								<c:if test="${product.proTranCode=='2'}">
 									<td align="left">판매완료
-									<a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.proTranCode}">>배송하기</a>
+									<a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.proTranCode}">배송하기</a>
 									</td>
 								</c:if>
-								<c:if test="${product.proTranCode.trim()=='3'}">
+								<c:if test="${product.proTranCode=='3'}">
 									<td align="left">배송중</td>
 								</c:if>
-								<c:if test="${product.proTranCode.trim()=='4'}">
+								<c:if test="${product.proTranCode=='4'}">
 									<td align="left">배송완료</td>
 								</c:if>
 							</c:when>
 							<c:otherwise>
-								<c:if test="${product.proTranCode.trim()=='1'}">
+								<c:if test="${product.proTranCode=='1'}">
 									<td align="left">판매중</td>
 								</c:if>
-								<c:if test="${product.proTranCode.trim()=='2'}">
+								<c:if test="${product.proTranCode=='2'}">
+									<td align="left">재고없음</td>
+								</c:if>
+								<c:if test="${product.proTranCode=='3'}">
+									<td align="left">재고없음</td>
+								</c:if>
+								<c:if test="${product.proTranCode=='4'}">
 									<td align="left">재고없음</td>
 								</c:if>
 							</c:otherwise>

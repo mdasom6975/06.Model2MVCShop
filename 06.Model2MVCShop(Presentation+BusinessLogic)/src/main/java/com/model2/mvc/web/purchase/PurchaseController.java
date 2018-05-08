@@ -2,14 +2,12 @@ package com.model2.mvc.web.purchase;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,31 +55,38 @@ public class PurchaseController {
 	}
 
 	@RequestMapping("/addPurchase.do")
-	public ModelAndView addPurchase(@ModelAttribute("purchase") Purchase purchase, @ModelAttribute("product") Product product, HttpSession session) throws Exception {
+	public ModelAndView addPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") String prodNo, HttpSession session) throws Exception {
 
 		System.out.println("/addPurchase.do");
 		
+//		purchase.setPurchaseProd(product);
+//		purchase.setBuyer((User)session.getAttribute("user"));
+		
+		User user =(User)session.getAttribute("user");
+		Product product = productService.getProduct(Integer.parseInt(prodNo));
 		purchase.setPurchaseProd(product);
-		purchase.setBuyer((User)session.getAttribute("user"));
+		purchase.setBuyer(user);
+		purchaseService.addPurchase(purchase);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/purchase/addPurchase.jsp");
-		modelAndView.addObject("purchase", purchase);
+		//modelAndView.addObject("purchase", purchase);
 
 		return modelAndView;
 	}
 
 	@RequestMapping("getPurchase.do")
-	public ModelAndView getPurchase(@ModelAttribute("purchase") Purchase purchase, @ModelAttribute("product") Product product, HttpSession session) throws Exception {
+	public ModelAndView getPurchase(@RequestParam("tranNo") String tranNo, @ModelAttribute("product") Product product, HttpSession session) throws Exception {
 
 		System.out.println("getPurchase.do");
-		
+		Purchase purchase = purchaseService.getPurchase(Integer.parseInt(tranNo));
 		purchase.setPurchaseProd(product);
 		purchase.setBuyer((User)session.getAttribute("user"));
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/purchase/getPurchase.jsp");
 		modelAndView.addObject("purchase", purchase);
+		modelAndView.setViewName("/purchase/getPurchase.jsp");
+		
 
 		return modelAndView;
 	}
@@ -108,6 +113,7 @@ public class PurchaseController {
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
+
 		
 		System.out.println("list"+map.get("list"));
 		return modelAndView;
@@ -117,13 +123,49 @@ public class PurchaseController {
 	public ModelAndView updatePurchaseView(@RequestParam("tranNo") String tranNo) throws Exception{
 		
 		System.out.println("updatePurchaseView.do");
+		Purchase purchase = purchaseService.getPurchase(Integer.parseInt(tranNo));
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/purchase/updatePurchaseView.jsp");
-		modelAndView.addObject("purchase", tranNo);
+		modelAndView.addObject("purchase", purchase);
 
 		return modelAndView;
 		
+	}
+	
+	@RequestMapping("/updateTranCode.do")
+	public ModelAndView updateTranCode(@RequestParam(value = "prodNo", required=false) String prodNo, @RequestParam(value="tranNo", required=false) String tranNo,
+			@RequestParam("tranCode") String tranCode, HttpSession session) throws Exception{
+		
+		int tranCodeUp = Integer.parseInt(tranCode);
+		System.out.println("/purchase/updateTranCode GET");
+		
+		String role = "";
+		User user = (User)session.getAttribute("user");
+		
+		if(user != null) {
+			role = user.getRole();	
+		}
+		Purchase purchase = null;
+		ModelAndView modelAndView = new ModelAndView();
+		
+
+		if(role.equals("admin")) {
+			modelAndView.setViewName("/listProduct.do?menu=manage");
+			purchase = purchaseService.getPurchase2(Integer.parseInt(prodNo));			
+		} 
+		else if(role.equals("user")) {
+			modelAndView.setViewName("/listPurchase.do");
+			purchase = purchaseService.getPurchase(Integer.parseInt(tranNo));
+		}
+		System.out.println(tranCodeUp);
+		tranCodeUp++;
+		System.out.println(tranCodeUp);
+		
+		purchase.setTranCode(String.valueOf(tranCodeUp));
+		purchaseService.updateTranCode(purchase);
+	
+		return modelAndView;
 	}
 
 }

@@ -99,10 +99,11 @@ public class ProductController {
 	}
 
 	@RequestMapping("listProduct.do")
-	public String listProduct(@ModelAttribute("search") Search search, Model model, HttpServletRequest request, HttpSession session)
+	public String listProduct(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
 			throws Exception {
 
 		System.out.println("listProduct.do");
+		System.out.println("getCurrentPage"+search.getCurrentPage());
 
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);

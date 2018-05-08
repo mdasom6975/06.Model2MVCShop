@@ -116,28 +116,53 @@
 
 		<table border="0" cellspacing="0" cellpadding="0">
 			<tr>
+		<c:if test="${user.role=='admin' }">
+			<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23" />
+			</td>
+			<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
+			<a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">
+			수정
+			</a>
+			</td>
+			<td width="14" height="23">
+			<img src="/images/ct_btnbg03.gif" width="14" height="23">
+			</td>
+	
+			<td width="30"></td>
+		</c:if>
 		
-				<td width="17" height="23">
-					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-				</td>
-				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a href="/addPurchaseView.do?prodNo=${product.prodNo}">구매</a>
-				</td>
-				<td width="14" height="23">
-					<img src="/images/ct_btnbg03.gif" width="14" height="23">
-				</td>
-				<td width="30"></td>
-		
-				<td width="17" height="23">
-					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-				</td>
-				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a href="javascript:history.go(-1)">이전</a>
-				</td>
-				<td width="14" height="23">
-					<img src="/images/ct_btnbg03.gif" width="14" height="23">
-				</td>
-			</tr>
+		<c:if test="${empty user.role }">
+		회원만 구매가 가능합니다.
+		</c:if>															
+		<c:if test="${param.menu=='search' && (!empty user.role || user.role=='admin') }">
+			<c:choose>
+			<c:when test="${!empty purchase.tranCode }">
+			현재 판매가 종료되었습니다.
+			</c:when>
+			<c:otherwise>
+			<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23" />
+			</td>
+			<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
+			<a href="/addPurchaseView.do?prodNo=${product.prodNo}">
+			구매
+			</a>
+			</td>
+			<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
+			<td width="30"></td>								
+			</c:otherwise>
+			</c:choose>
+		</c:if>
+			
+		<td width="17" height="23">
+			<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+		</td>
+		<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
+		<a href="javascript:history.go(-1)">이전</a>
+		</td>
+			<td width="14" height="23">
+			<img src="/images/ct_btnbg03.gif" width="14" height="23">
+		</td>
+	</tr>
 		</table>
 
 		</td>

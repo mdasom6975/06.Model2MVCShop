@@ -23,7 +23,7 @@
 	<!-- SQL : INSERT -->
 	<insert id="addPurchase" parameterType="purchase">
 		INSERT
-		INTO transaction(tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date)
+		INTO transaction(tran_no, prod_no, buyer_id, trim(payment_option), receiver_name, receiver_phone, demailaddr, dlvy_request, trim(tran_status_code), order_data, dlvy_date)
 		VALUES (seq_transaction_tran_no.nextval,
 						#{purchaseProd.prodNo:NUMERIC},
 						#{buyer.userId:VARCHAR},
@@ -40,7 +40,7 @@
 	<!-- SQL : SELECT ONE -->
 	<select id="getPurchase" parameterType="int"  resultMap="purchaseSelectMap">
 	SELECT
-	tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date
+	tran_no, prod_no, buyer_id, trim(payment_option), receiver_name, receiver_phone, demailaddr, dlvy_request, trim(tran_status_code), order_data, dlvy_date
 	FROM transaction
 	WHERE tran_no =#{value}
 	</select>
@@ -48,7 +48,7 @@
 	<!-- SQL : SELECT ONE -->
 	<select id="getPurchase2" parameterType="int" resultMap="purchaseSelectMap">
 	SELECT
-	tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date
+	tran_no, prod_no, buyer_id, trim(payment_option), receiver_name, receiver_phone, demailaddr, dlvy_request, trim(tran_status_code), order_data, dlvy_date
 	FROM transaction
 	WHERE prod_no=#{value}
 	</select>
@@ -79,7 +79,7 @@
 	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT t.tran_no, p.prod_no, t.order_data, t.tran_status_code 
+  						FROM ( SELECT t.tran_no, p.prod_no, t.order_data, trim(t.tran_status_code), t.buyer_id, t.receiver_name, t.receiver_phone
 										FROM transaction t, product p, users u 
 										WHERE t.prod_no = p.prod_no 
 										AND t.buyer_id = u.user_id 
@@ -91,12 +91,14 @@
 </select>
 
 <!-- SQL : SELECT ROW Count -->
-	<select id="getTotalCount" parameterType="search" resultType="int">
+	<select id="getTotalCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
-		FROM( SELECT p.prod_no, p.prod_name , p.price, p.reg_date,
-		nvl(t.tran_status_code,1)
-		FROM product p, transaction t
-		WHERE t.prod_no(+)=p.prod_no ) countTable
+		FROM(  SELECT t.tran_no, p.prod_no, t.order_data, trim(t.tran_status_code), t.buyer_id, t.receiver_name, t.receiver_phone
+										FROM transaction t, product p, users u 
+										WHERE t.prod_no = p.prod_no 
+										AND t.buyer_id = u.user_id 
+										AND t.buyer_id = #{buyerId}
+										ORDER BY tran_no ) countTable
 	</select>
 	
 </mapper>

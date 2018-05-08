@@ -135,6 +135,12 @@
 		<td align="right">
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
+					<c:choose>
+					<c:when test="${purchase.tranCode == '3' || purchase.tranCode == '4' }">
+					이미 상품이 발송되어 수정은 불가합니다. 
+					관리자또는 게시판을 통해 문의 바랍니다.
+					</c:when>
+					<c:otherwise>
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
@@ -144,6 +150,8 @@
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
 					</td>
+					</c:otherwise>
+					</c:choose>
 					<td width="30"></td>
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>

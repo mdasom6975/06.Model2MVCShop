@@ -75,7 +75,7 @@ public class Purchase {
 		this.receiverPhone = receiverPhone;
 	}
 	public String getTranCode() {
-		return tranCode.trim();
+		return tranCode;
 	}
 	public void setTranCode(String tranCode) {
 		this.tranCode = tranCode;
