@@ -53,22 +53,22 @@ WHERE prod_no = #{prodNo}
 
 <!--SQL : SELECT LIST -->
 
-<select id="getProductList" parameterType="search" resultMap="productSelectMap">
+<select id="getProductList" parameterType="map" resultMap="productSelectMap">
 		SELECT *
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
-		FROM ( SELECT p.prod_no, p.prod_name , p.price, p.reg_date,
-		nvl(t.tran_status_code,1) as tran_status_code
+		FROM ( SELECT p.*,
+		nvl(trim(t.tran_status_code),1) as tran_status_code
 		FROM product p, transaction t
 		WHERE t.prod_no(+)=p.prod_no
 		<if test="searchCondition != null">
-			<if test="searchCondition == 0 and searchKeyword !=''">
-				AND p.prod_no like '%'||#{searchKeyword}||'%'
+			<if test="searchCondition == 0 and searchKeyword !='' ">
+				AND p.prod_no like '%${searchKeyword}%'
 			</if>
 			<if test="searchCondition == 1 and searchKeyword !='' ">
-				AND p.prod_name like '%'||#{searchKeyword}||'%'
+				AND p.prod_name like '%${searchKeyword}%'
 			</if>
 			<if test="searchCondition == 2 and searchKeyword !='' ">
-				AND p.price like '%'||#{searchKeyword}||'%'
+				AND p.price like '%${searchKeyword}%'
 			</if>
 		</if>
 		ORDER BY p.prod_no ) inner_table
@@ -83,21 +83,21 @@ WHERE prod_no = #{prodNo}
 
 
 	<!-- SQL : SELECT ROW Count -->
-	<select id="getTotalCount" parameterType="search" resultType="int">
+	<select id="getTotalCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		FROM( SELECT p.prod_no, p.prod_name , p.price, p.reg_date,
-		nvl(t.tran_status_code,1)
+		nvl(trim(t.tran_status_code),1)
 		FROM product p, transaction t
 		WHERE t.prod_no(+)=p.prod_no
 		<if test="searchCondition != null">
 			<if test="searchCondition == 0 and searchKeyword !='' ">
-				AND p.prod_no LIKE '%'||#{searchKeyword}||'%'
+				AND p.prod_no LIKE '%${searchKeyword}%'
 			</if>
 			<if test="searchCondition == 1 and searchKeyword !='' ">
-				AND p.prod_name  LIKE '%'||#{searchKeyword}||'%'
+				AND p.prod_name  LIKE '%${searchKeyword}%'
 			</if>
 			<if test="searchCondition == 2 and searchKeyword !='' ">
-				AND p.price LIKE '%'||#{searchKeyword}||'%'
+				AND p.price LIKE '%${searchKeyword}%'
 			</if>
 		</if>
 		) countTable

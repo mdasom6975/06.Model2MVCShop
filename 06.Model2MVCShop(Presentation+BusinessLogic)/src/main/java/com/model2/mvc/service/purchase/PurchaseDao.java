@@ -20,7 +20,6 @@ public interface PurchaseDao {
 	
 	// SELECT LIST
 	public List<Purchase> getPurchseList(Search search, String buyerId) throws Exception;
-	//public Map<String, Object> getPurchseList(Search search,String buyerId ) throws Exception;
 	
 	// UPDATE
 	public void updatePurchase(Purchase purchase) throws Exception;
@@ -29,6 +28,6 @@ public interface PurchaseDao {
 	public void updateTranCode(Purchase purchase) throws Exception;
 	
 	// 게시판 Page 처리를 위한 전체Row(totalCount)  return
-	public int getTotalCount(Search search) throws Exception ;
+	public int getTotalCount(Search search, String buyerId) throws Exception ;
 	
 } //end of PurchaseDAO

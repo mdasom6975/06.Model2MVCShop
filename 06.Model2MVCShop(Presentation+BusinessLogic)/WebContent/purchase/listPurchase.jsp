@@ -81,18 +81,18 @@
 						<td></td>
 						<c:choose>
 							<c:when test="${user.role=='user'}">
-								<c:if test="${purchase.tranCode.trim()=='2'}">
+								<c:if test="${purchase.tranCode=='2'}">
 									<td align="left">현재 구매완료 상태입니다.</td>
 								</c:if>
-								<c:if test="${purchase.tranCode.trim()=='3'}">
+								<c:if test="${purchase.tranCode=='3'}">
 									<td align="left">현재 배송중 상태입니다.</td>
 								</c:if>
-								<c:if test="${purchase.tranCode.trim()=='4'}">
+								<c:if test="${purchase.tranCode=='4'}">
 									<td align="left">현재 배송완료 상태입니다.</td>
 								</c:if>
 							</c:when>
 							<c:otherwise>
-								<c:if test="${purchase.tranCode.trim()=='3' }">
+								<c:if test="${purchase.tranCode=='3' }">
 									<td align="left"><a
 										href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=${purchase.tranCode}">물건도착</a>
 									</td>
