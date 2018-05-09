@@ -67,8 +67,10 @@ public class PurchaseController {
 		Product product = productService.getProduct(Integer.parseInt(prodNo));
 		purchase.setPurchaseProd(product);
 		purchase.setBuyer(user);
+		System.out.println("DB 전 Purchase"+purchase);
+		purchaseService.addPurchase(purchase);
 		
-		
+		System.out.println("DB 후 다녀 왔나 Purchase");
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/purchase/addPurchase.jsp");
 		modelAndView.addObject("purchase", purchase);
