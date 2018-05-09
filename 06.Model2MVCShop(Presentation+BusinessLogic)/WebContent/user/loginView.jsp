@@ -77,7 +77,7 @@
                 	<img src="/images/text_id.gif" width="100" height="30"/>
                 </td>
                 <td height="30">
-                  <input 	type="text" name="userId"  class="ct_input_g" 
+                  <input 	type="text" name="userId"   class="ct_input_g" 
                   				style="width:180px; height:19px"  maxLength='50'/>          
           		</td>
                 <td width="20" height="30">&nbsp;</td>

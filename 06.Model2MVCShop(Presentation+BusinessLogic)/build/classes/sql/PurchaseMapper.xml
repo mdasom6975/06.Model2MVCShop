@@ -71,7 +71,7 @@
 	<update id="updateTranCode" parameterType="purchase">
 	UPDATE transaction
 	<set>
-				tran_status_code = #{tranCode:CHAR}
+				tran_status_code = #{tranCode:VARCHAR}
 	</set>
 	WHERE tran_no = #{tranNo}
 	</update>

@@ -54,19 +54,26 @@ public class ProductDaoImpl implements ProductDao {
 		map.put("searchCondition", search.getSearchCondition());
 		map.put("searchKeyword", search.getSearchKeyword());
 		map.put("endRowNum", search.getEndRowNum()+"");
-		map.put("startRoeNum", search.getStartRowNum()+"");		
+		map.put("startRowNum", search.getStartRowNum()+"");		
 		return sqlSession.selectList("ProductMapper.getProductList", map);
 	}
 
 	@Override
 	public void updateProduct(Product product) throws Exception {
+		String[] splitManuDate = product.getManuDate().split("-");
+		String manuDate="";
+		for(String str : splitManuDate) {
+			manuDate += str;
+		}
+		product.setManuDate(manuDate);
+		
 		sqlSession.update("ProductMapper.updateProduct", product);
 		
 	}
 
 	@Override
 	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
 	}
 
 }

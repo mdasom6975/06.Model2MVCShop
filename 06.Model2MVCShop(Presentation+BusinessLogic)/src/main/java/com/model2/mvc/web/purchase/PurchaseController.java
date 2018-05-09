@@ -48,6 +48,7 @@ public class PurchaseController {
 				
 		Product product = productService.getProduct(Integer.parseInt(prodNo));
 		
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/purchase/addPurchaseView.jsp");
 		modelAndView.addObject("product", product);
@@ -66,26 +67,26 @@ public class PurchaseController {
 		Product product = productService.getProduct(Integer.parseInt(prodNo));
 		purchase.setPurchaseProd(product);
 		purchase.setBuyer(user);
-		purchaseService.addPurchase(purchase);
+		
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/purchase/addPurchase.jsp");
-		//modelAndView.addObject("purchase", purchase);
+		modelAndView.addObject("purchase", purchase);
 
 		return modelAndView;
 	}
 
 	@RequestMapping("getPurchase.do")
-	public ModelAndView getPurchase(@RequestParam("tranNo") String tranNo, @ModelAttribute("product") Product product, HttpSession session) throws Exception {
+	public ModelAndView getPurchase(@RequestParam("tranNo") String tranNo) throws Exception {
 
 		System.out.println("getPurchase.do");
 		Purchase purchase = purchaseService.getPurchase(Integer.parseInt(tranNo));
-		purchase.setPurchaseProd(product);
-		purchase.setBuyer((User)session.getAttribute("user"));
+//		purchase.setPurchaseProd(product);
+//		purchase.setBuyer((User)session.getAttribute("user"));
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("purchase", purchase);
 		modelAndView.setViewName("/purchase/getPurchase.jsp");
+		modelAndView.addObject("purchase", purchase);
 		
 
 		return modelAndView;

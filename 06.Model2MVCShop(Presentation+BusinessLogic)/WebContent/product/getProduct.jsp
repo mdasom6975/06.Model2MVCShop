@@ -132,7 +132,7 @@
 		</c:if>
 		
 		<c:if test="${empty user.role }">
-		회원만 구매가 가능합니다.
+		구매를 원하시면 로그인하세요.
 		</c:if>															
 		<c:if test="${param.menu=='search' && (!empty user.role || user.role=='admin') }">
 			<c:choose>
